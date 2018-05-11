@@ -12,6 +12,9 @@
     so it should be straightforward to find them.
   -->
   <f:section title="Kiuwan Global Settings">
+    <f:entry title="Kiuwan Base URL" help="/plugin/kiuwanJenkinsPlugin/help/help-kiuwanBaseUrl.html">
+        <f:textbox field="kiuwanBaseUrl" value="https://www.kiuwan.com" />
+    </f:entry>
     <f:entry title="Kiuwan account username" help="/plugin/kiuwanJenkinsPlugin/help/help-username.html">
         <f:textbox field="username" />
     </f:entry>
