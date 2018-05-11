@@ -25,8 +25,13 @@ public class KiuwanDownloadable extends Downloadable {
     /**
      * If the package isn't downloaded yet, download it and return its local cache.
      */
+<<<<<<< HEAD
     public File resolve(String osName, String sunArchDataModel, TaskListener listener) throws IOException {
         URL url = new URL("https://www.kiuwan.com/pub/analyzer/KiuwanLocalAnalyzer.zip");
+=======
+    public File resolve(String osName, String sunArchDataModel, TaskListener listener, String kiuwanBaseUrl) throws IOException {
+        URL url = new URL(kiuwanBaseUrl + "/pub/analyzer/KiuwanLocalAnalyzer.zip");
+>>>>>>> 8465b1ab071c9647baccc15347879f8578749737
         File f = getLocalCacheFile(url);
         if (f.exists()) return f;
         
