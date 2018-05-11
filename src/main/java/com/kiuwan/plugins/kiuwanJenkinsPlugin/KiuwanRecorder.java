@@ -440,21 +440,12 @@ public class KiuwanRecorder extends Recorder {
 				try {
 					DescriptorImpl descriptor = getDescriptor();
 					FormValidation connectionTestResult = descriptor.doTestConnection(descriptor.getUsername(),
-<<<<<<< HEAD
-							descriptor.getPassword(), descriptor.isConfigureProxy(), descriptor.getProxyHost(),
-							descriptor.getProxyPort(), descriptor.getProxyProtocol(),
-							descriptor.getProxyAuthentication(), descriptor.getProxyUsername(),
-							descriptor.getProxyPassword());
-					if (Kind.OK.equals(connectionTestResult.kind)) {
-						performScan(node, build, launcher, listener, resultReference);
-=======
 							descriptor.getPassword(), descriptor.getKiuwanBaseUrl(), descriptor.isConfigureProxy(), 
 							descriptor.getProxyHost(),descriptor.getProxyPort(), descriptor.getProxyProtocol(),
 							descriptor.getProxyAuthentication(), descriptor.getProxyUsername(),
 							descriptor.getProxyPassword());
 					if (Kind.OK.equals(connectionTestResult.kind)) {
 						performScan(node, build, launcher, listener, resultReference, descriptor.getKiuwanBaseUrl());
->>>>>>> 8465b1ab071c9647baccc15347879f8578749737
 					} else {
 						listener.getLogger().print("Could not get authorization from Kiuwan. Verify your ");
 						listener.hyperlink("/configure", "Kiuwan account settings");
@@ -490,11 +481,7 @@ public class KiuwanRecorder extends Recorder {
 	}
 
 	private void performScan(Node node, AbstractBuild<?, ?> build, Launcher launcher, final BuildListener listener,
-<<<<<<< HEAD
-			AtomicReference<Result> resultReference) throws KiuwanException, IOException, InterruptedException {
-=======
 			AtomicReference<Result> resultReference, String kiuwanBaseUrl) throws KiuwanException, IOException, InterruptedException {
->>>>>>> 8465b1ab071c9647baccc15347879f8578749737
 		String name = null;
 		String analysisLabel = null;
 		String analysisEncoding = null;
@@ -553,11 +540,7 @@ public class KiuwanRecorder extends Recorder {
 		
 		final PrintStream loggerStream = listener.getLogger();
 		if (agentHome.act(new KiuwanRemoteFilePath()) == null) {
-<<<<<<< HEAD
-			installLocalAnalyzer(jenkinsRootDir, listener);
-=======
 			installLocalAnalyzer(jenkinsRootDir, listener, kiuwanBaseUrl);
->>>>>>> 8465b1ab071c9647baccc15347879f8578749737
 		}
 
 		if (launcher.isUnix()) {
@@ -720,20 +703,12 @@ public class KiuwanRecorder extends Recorder {
 					addLink(build, analysisURL);
 				}
 				else{
-<<<<<<< HEAD
-					addDefaultAnalysisLink(build, name, analysisLabel);
-=======
 					addDefaultAnalysisLink(build, name, analysisLabel, kiuwanBaseUrl);
->>>>>>> 8465b1ab071c9647baccc15347879f8578749737
 				}
 			}
 		}
 		else {
-<<<<<<< HEAD
-			addDefaultAnalysisLink(build, name, analysisLabel);
-=======
 			addDefaultAnalysisLink(build, name, analysisLabel, kiuwanBaseUrl);
->>>>>>> 8465b1ab071c9647baccc15347879f8578749737
 		}
 	}
 
@@ -742,13 +717,8 @@ public class KiuwanRecorder extends Recorder {
 		build.addAction(link);
 	}
 
-<<<<<<< HEAD
-	private void addDefaultAnalysisLink(AbstractBuild<?, ?> build, String name, String analysisLabel) {
-		KiuwanBuildSummaryAction link = new KiuwanBuildSummaryAction(buildKiuwanResultUrl(name, analysisLabel));
-=======
 	private void addDefaultAnalysisLink(AbstractBuild<?, ?> build, String name, String analysisLabel, String kiuwanBaseUrl) {
 		KiuwanBuildSummaryAction link = new KiuwanBuildSummaryAction(buildKiuwanResultUrl(name, analysisLabel, kiuwanBaseUrl));
->>>>>>> 8465b1ab071c9647baccc15347879f8578749737
 		build.addAction(link);
 	}
 
@@ -1099,13 +1069,8 @@ public class KiuwanRecorder extends Recorder {
 		}
 	}
 
-<<<<<<< HEAD
-	private String buildKiuwanResultUrl(String applicationName, String analysisLabel) {
-		return "https://www.kiuwan.com/saas/application?app=" + applicationName + "&label=" + analysisLabel;
-=======
 	private String buildKiuwanResultUrl(String applicationName, String analysisLabel, String kiuwanBaseUrl) {
 		return kiuwanBaseUrl + "/saas/application?app=" + applicationName + "&label=" + analysisLabel;
->>>>>>> 8465b1ab071c9647baccc15347879f8578749737
 	}
 
 	private void parseParameters(List<String> args, Launcher launcher) {
@@ -1216,19 +1181,11 @@ public class KiuwanRecorder extends Recorder {
 		return parameterExpression;
 	}
 
-<<<<<<< HEAD
-	private void installLocalAnalyzer(FilePath root, BuildListener listener) throws IOException, InterruptedException {
-		KiuwanDownloadable kiuwanDownloadable = new KiuwanDownloadable();
-		FilePath remoteDir = root.child(KiuwanComputerListener.INSTALL_DIR);
-		listener.getLogger().println("Installing KiuwanLocalAnalyzer in " + remoteDir);
-		File zip = kiuwanDownloadable.resolve(null, null, listener);
-=======
 	private void installLocalAnalyzer(FilePath root, BuildListener listener, String kiuwanBaseUrl) throws IOException, InterruptedException {
 		KiuwanDownloadable kiuwanDownloadable = new KiuwanDownloadable();
 		FilePath remoteDir = root.child(KiuwanComputerListener.INSTALL_DIR);
 		listener.getLogger().println("Installing KiuwanLocalAnalyzer in " + remoteDir);
 		File zip = kiuwanDownloadable.resolve(null, null, listener, kiuwanBaseUrl);
->>>>>>> 8465b1ab071c9647baccc15347879f8578749737
 		remoteDir.mkdirs();
 		new FilePath(zip).unzip(remoteDir);
 	}
@@ -1241,10 +1198,7 @@ public class KiuwanRecorder extends Recorder {
 	static KiuwanRestApiClient instantiateClient(DescriptorImpl descriptor) {
 		String username = descriptor.getUsername();
 		String password = descriptor.getPassword();
-<<<<<<< HEAD
-=======
 		String kiuwanBaseUrl = descriptor.getKiuwanBaseUrl() + "/saas/rest/v1";
->>>>>>> 8465b1ab071c9647baccc15347879f8578749737
 		boolean configureProxy = descriptor.isConfigureProxy();
 		String proxyHost = descriptor.getProxyHost(); 
 		int proxyPort = descriptor.getProxyPort(); 
@@ -1265,16 +1219,6 @@ public class KiuwanRecorder extends Recorder {
 			}
 
 			if (PROXY_AUTHENTICATION_BASIC.equals(proxyAuthentication)) {
-<<<<<<< HEAD
-				client = new KiuwanRestApiClient(username, password, proxyHost, proxyPort, proxyType, proxyUsername,
-						proxyPassword);
-			} else {
-				// None authentication
-				client = new KiuwanRestApiClient(username, password, proxyHost, proxyPort, proxyType);
-			}
-		} else {
-			client = new KiuwanRestApiClient(username, password);
-=======
 				client = new KiuwanRestApiClient(username, password, kiuwanBaseUrl, proxyHost, proxyPort, proxyType, proxyUsername,
 						proxyPassword);
 			} else {
@@ -1283,7 +1227,6 @@ public class KiuwanRecorder extends Recorder {
 			}
 		} else {
 			client = new KiuwanRestApiClient(username, password, kiuwanBaseUrl);
->>>>>>> 8465b1ab071c9647baccc15347879f8578749737
 		}
 		return client;
 	}
@@ -1343,11 +1286,8 @@ public class KiuwanRecorder extends Recorder {
 		private String username;
 
 		private String password;
-<<<<<<< HEAD
-=======
 		
 		private String kiuwanBaseUrl;
->>>>>>> 8465b1ab071c9647baccc15347879f8578749737
 
 		private boolean configureProxy;
 
@@ -1375,10 +1315,7 @@ public class KiuwanRecorder extends Recorder {
 			// set that to properties and call save().
 			String username = (String) json.get("username");
 			String password = (String) json.get("password");
-<<<<<<< HEAD
-=======
 			String kiuwanBaseUrl = (String) json.get("kiuwanBaseUrl");
->>>>>>> 8465b1ab071c9647baccc15347879f8578749737
 			Boolean configureProxy = (Boolean) json.get("configureProxy");
 			String proxyHost = (String) json.get("proxyHost");
 			int proxyPort = Integer.parseInt((String) json.get("proxyPort"));
@@ -1390,10 +1327,7 @@ public class KiuwanRecorder extends Recorder {
 			this.username = username;
 			Secret secret = Secret.fromString(password);
 			this.password = secret.getEncryptedValue();
-<<<<<<< HEAD
-=======
 			this.kiuwanBaseUrl = kiuwanBaseUrl;
->>>>>>> 8465b1ab071c9647baccc15347879f8578749737
 			this.configureProxy = configureProxy;
 			this.proxyHost = proxyHost;
 			this.proxyPort = proxyPort;
@@ -1431,8 +1365,6 @@ public class KiuwanRecorder extends Recorder {
 		public String getPassword() {
 			return Secret.toString(Secret.decrypt(this.password));
 		}
-<<<<<<< HEAD
-=======
 		
 		/**
 		 * @return Kiuwan's base URL
@@ -1440,7 +1372,6 @@ public class KiuwanRecorder extends Recorder {
 		public String getKiuwanBaseUrl() {
 			return this.kiuwanBaseUrl;
 		}
->>>>>>> 8465b1ab071c9647baccc15347879f8578749737
 
 		/**
 		 * @return the configureProxy
@@ -1498,21 +1429,14 @@ public class KiuwanRecorder extends Recorder {
 			return configSaveStamp;
 		}
 		
-<<<<<<< HEAD
-		public FormValidation doTestConnection(@QueryParameter String username, @QueryParameter String password,
-=======
 		public FormValidation doTestConnection(@QueryParameter String username, @QueryParameter String password, @QueryParameter String kiuwanBaseUrl,
->>>>>>> 8465b1ab071c9647baccc15347879f8578749737
 				@QueryParameter boolean configureProxy, @QueryParameter String proxyHost, @QueryParameter int proxyPort,
 				@QueryParameter String proxyProtocol, @QueryParameter String proxyAuthentication,
 				@QueryParameter String proxyUsername, @QueryParameter String proxyPassword) {
 			DescriptorImpl descriptor = new DescriptorImpl();
 			descriptor.username = username;
 			descriptor.password = Secret.fromString(password).getEncryptedValue();
-<<<<<<< HEAD
-=======
 			descriptor.kiuwanBaseUrl = kiuwanBaseUrl;
->>>>>>> 8465b1ab071c9647baccc15347879f8578749737
 			descriptor.configureProxy = configureProxy;
 			descriptor.proxyHost = proxyHost;
 			descriptor.proxyPort = proxyPort;

@@ -1,55 +1,3 @@
-<<<<<<< HEAD
-<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
-  <!--
-    This Jelly script is used to produce the global configuration option.
-
-    Jenkins uses a set of tag libraries to provide uniformity in forms.
-    To determine where this tag is defined, first check the namespace URI,
-    and then look under $JENKINS/views/. For example, <f:section> is defined
-    in $JENKINS/views/lib/form/section.jelly.
-
-    It's also often useful to just check other similar scripts to see what
-    tags they use. Views are always organized according to its owner class,
-    so it should be straightforward to find them.
-  -->
-  <f:section title="Kiuwan Global Settings">
-    <f:entry title="Kiuwan Base URL" help="/plugin/kiuwanJenkinsPlugin/help/help-kiuwanBaseUrl.html">
-        <f:textbox field="kiuwanBaseUrl" value="https://www.kiuwan.com" />
-    </f:entry>
-    <f:entry title="Kiuwan account username" help="/plugin/kiuwanJenkinsPlugin/help/help-username.html">
-        <f:textbox field="username" />
-    </f:entry>
-    <f:entry title="Kiuwan account password" help="/plugin/kiuwanJenkinsPlugin/help/help-password.html">
-	  <f:password field="password" />
-    </f:entry>
-    
-    <f:optionalBlock name="configureProxy" field="configureProxy" title="Configure Proxy" inline="true">
-	    <f:entry title="Proxy Host" field="proxyHost">
-			<f:textbox />
-		</f:entry>
-		<f:entry title="Proxy Port" field="proxyPort">
-			<f:number />
-		</f:entry>
-		<f:entry title="Proxy Protocol" field="proxyProtocol">
-			<f:select />
-		</f:entry>
-		<f:entry title="Proxy Authentication" field="proxyAuthentication">
-			<f:select />
-		</f:entry>
-		<f:entry title="Proxy Username" field="proxyUsername">
-			<f:textbox />
-		</f:entry>
-		<f:entry title="Proxy Password" field="proxyPassword">
-			<f:password />
-		</f:entry>
-	</f:optionalBlock>
-    <f:validateButton
-        title="Validate credentials"
-        progress="Validating..."
-        method="testConnection" 
-        with="username,password,configureProxy,proxyHost,proxyPort,proxyProtocol,proxyAuthentication,proxyUsername,proxyPassword" />
-  </f:section>
-=======
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
   <!--
     This Jelly script is used to produce the global configuration option.
@@ -100,5 +48,4 @@
         method="testConnection" 
         with="username,password,kiuwanBaseUrl,configureProxy,proxyHost,proxyPort,proxyProtocol,proxyAuthentication,proxyUsername,proxyPassword" />
   </f:section>
->>>>>>> 8465b1ab071c9647baccc15347879f8578749737
 </j:jelly>

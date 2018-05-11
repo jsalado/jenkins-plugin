@@ -13,11 +13,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-<<<<<<< HEAD
-=======
 import com.kiuwan.plugins.kiuwanJenkinsPlugin.KiuwanRecorder.DescriptorImpl;
 
->>>>>>> 8465b1ab071c9647baccc15347879f8578749737
 import jenkins.model.Jenkins;
 
 @Extension
@@ -43,19 +40,13 @@ public class KiuwanComputerListener extends ComputerListener {
 
     public void process(Computer c, FilePath root, TaskListener listener) throws IOException, InterruptedException {
         try {
-<<<<<<< HEAD
-=======
         	DescriptorImpl descriptor = new DescriptorImpl();
->>>>>>> 8465b1ab071c9647baccc15347879f8578749737
+
             FilePath remoteDir = root.child(INSTALL_DIR);
             if (!remoteDir.child(AGENT_HOME).exists()) {
                 listener.getLogger().println("Installing KiuwanAnalyzer to "+remoteDir);
                 Map<Object,Object> props = c.getSystemProperties();
-<<<<<<< HEAD
-                File zip = kiuwanDownloadable.resolve((String) props.get("os.name"), (String) props.get("sun.arch.data.model"),listener);
-=======
                 File zip = kiuwanDownloadable.resolve((String) props.get("os.name"), (String) props.get("sun.arch.data.model"),listener, descriptor.getKiuwanBaseUrl());
->>>>>>> 8465b1ab071c9647baccc15347879f8578749737
                 remoteDir.mkdirs();
                 new FilePath(zip).unzip(remoteDir);
             }
