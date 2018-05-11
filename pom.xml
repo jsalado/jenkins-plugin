@@ -1,0 +1,122 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.jenkins-ci.plugins</groupId>
+		<artifactId>plugin</artifactId>
+		<version>1.532.2</version><!-- which version of Jenkins is this plugin 
+			built against? -->
+	</parent>
+
+	<artifactId>kiuwanJenkinsPlugin</artifactId>
+	<version>1.4.7-SNAPSHOT</version>
+	<packaging>hpi</packaging>
+	<name>Jenkins Kiuwan plugin</name>
+	<description>Run Kiuwan static analysis of your code as part of your continuous integration process with Jenkins.</description>
+	<url>http://wiki.jenkins-ci.org/display/JENKINS/Kiuwan+Plugin</url>
+	<licenses>
+		<license>
+			<name>MIT license</name>
+			<comments>All source code is under the MIT license.</comments>
+		</license>
+	</licenses>
+
+	<scm>
+		<connection>scm:git:ssh://github.com/jenkinsci/kiuwan-plugin.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/jenkinsci/kiuwan-plugin.git</developerConnection>
+		<url>https://github.com/jenkinsci/kiuwan-plugin.git</url>
+		<tag>HEAD</tag>
+	</scm>
+
+	<developers>
+        <developer>
+            <id>jptejela</id>
+            <name>Juan Pablo</name>
+        </developer>
+        <developer>
+            <id>kwjsalado</id>
+            <name>Javier Salado</name>
+            <email>javier.salado@kiuwan.com</email>
+        </developer>
+	</developers>
+
+	<!-- get every artifact through repo.jenkins-ci.org, which proxies all the 
+		artifacts that we need -->
+	<repositories>
+		<repository>
+			<id>repo.jenkins-ci.org</id>
+			<url>https://repo.jenkins-ci.org/public/</url>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>repo.jenkins-ci.org</id>
+			<url>https://repo.jenkins-ci.org/public/</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.kiuwan</groupId>
+			<artifactId>java-api-client</artifactId>
+			<version>0.0.9</version>
+		</dependency>
+        <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant</artifactId>
+            <version>1.8.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kohsuke</groupId>
+            <artifactId>access-modifier-checker</artifactId>
+            <version>1.4</version>
+        </dependency>
+	</dependencies>
+
+	<properties>
+		<!-- explicitly specifying the latest version here because one we get from 
+			the parent POM tends to lag behind a bit -->
+		<maven-hpi-plugin.version>2.3</maven-hpi-plugin.version>
+	</properties>
+
+	<build>
+		<extensions>
+			<!-- Extension required to deploy a snapshot or a release to the CloudBees 
+				remote maven repository using Webdav -->
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-webdav</artifactId>
+				<version>1.0-beta-2</version>
+			</extension>
+		</extensions>
+		<plugins>
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<goals>deploy</goals>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<distributionManagement>
+		<repository>
+			<id>maven.jenkins-ci.org</id>
+			<name>jenkinsci-releases</name>
+			<url>https://repo.jenkins-ci.org/releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>maven.jenkins-ci.org</id>
+			<name>jenkinsci-snapshots</name>
+			<url>https://repo.jenkins-ci.org/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+</project>
